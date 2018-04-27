@@ -1,0 +1,36 @@
+
+    .body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+
+      /* This centers our sketch horizontally. */
+      justify-content: center;
+
+      /* This centers our sketch vertically. */
+      align-items: center;
+    }
+
+    .coltransport{position:relative;left: 1100px; top: 0px;visibility: hidden;}
+
+    .cell {display: table-cell;padding-right: 10px;}
+
+
+    /* 'hidden' visibility for rows
+    hides all html sliders. Could I just erase them?
+    */
+
+    .row {
+      visibility: hidden;
+      display: table-row;
+
+    }
+
+    p {
+      padding-top: 0cm;
+      margin: 0.1cm 0.1cm 0.1cm 0.1cm;
+      text-align: justify;
+      font-family: 'Arial';
+      font-size: 1.5vw;
+     }
+

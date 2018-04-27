@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <!-- Head -->
+
+  <head>
+    <meta charset="utf-8">
+    <title>test6</title>
+
+    <script src="libraries/p5.js" type="text/javascript"></script>
+    <script src="libraries/p5.dom.js" type="text/javascript"></script>
+    <script src="libraries/p5.sound.js" type="text/javascript"></script>
+    <script src="libraries/quicksettings.js" type="text/javascript"></script>
+    <script src="libraries/p5.gui.js" type="text/javascript"></script>
+    <script src='libraries/interface.js'></script>
+    
+    <script language="javascript" type="text/javascript" src="sketch.js"></script>
+    <script type="application/javascript" src="test6.js"></script>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+
+    <!-- https://enzienaudio.com/docs/index.html#08.javascript -->
+
+    <script type="text/javascript">
+      var webAssemblySupported = (typeof WebAssembly === 'object');
+      var heavyModule = null;
+      var loader = null;
+
+      window.onload = function() {
+        if (webAssemblySupported) {
+          heavyModule = test6_Module();
+          heavyModule['onRuntimeInitialized'] = moduleLoaded;
+        }
+        else {
+          console.warn("heavy: web assembly not found, falling back to asm.js");
+
+          var script = document.createElement('script');
+          script.src = "test6.asm.js";
+          script.onload = function() {
+            heavyModule = test6_AsmModule();
+            moduleLoaded();
+          }
+          document.body.appendChild(script);
+        }
+        
+        document.getElementById("transportButton").style.visibility = "hidden";
+      }
+
+      function moduleLoaded() {
+        loader = new heavyModule.AudioLibLoader();
+        loader.init({
+          // optional: set audio processing block size, default is 2048
+          blockSize: 2048,
+          // optional: provide a callback handler for [print] messages
+          printHook: onPrint,
+          // optional: provide a callback handler for [s {sendName} @hv_param] messages
+          sendHook: onFloatMessage,
+          // optional: pass an existing web audio context, otherwise a new one
+          // will be constructed.
+          webAudioContext: null
+        });
+        updateSlider_MIDIOctave(4.0);
+        updateSlider_attack(10.0);
+        updateSlider_cm_ratio(1.0);
+        updateSlider_decay(500.0);
+        updateSlider_depth(40.0);
+        updateSlider_envmod(0.0);
+        updateSlider_filterq(64.0);
+        updateSlider_glide(10.0);
+        updateSlider_lfo(0.01);
+        updateSlider_lfo_depth(0.1);
+        updateSlider_modattack(10.0);
+        updateSlider_moddecay(10.0);
+        updateSlider_modrelease(1000.0);
+        updateSlider_modsustain(95.0);
+        updateSlider_pan(0.0);
+        updateSlider_pitch60(0.0);
+        updateSlider_pitch61(0.0);
+        updateSlider_pitch62(0.0);
+        updateSlider_pitch63(0.0);
+        updateSlider_pitch64(0.0);
+        updateSlider_pitch65(0.0);
+        updateSlider_pitch66(0.0);
+        updateSlider_pitch67(0.0);
+        updateSlider_pitch68(0.0);
+        updateSlider_pitch69(0.0);
+        updateSlider_pitch70(0.0);
+        updateSlider_pitch71(0.0);
+        updateSlider_release(600.0);
+        updateSlider_sustain(90.0);
+        updateSlider_velmod(0.0);
+        document.getElementById("transportButton").style.visibility = "hidden";
+      }
+
+      function hvPrintHook(message) {
+        console.log(message);
+      }
+
+      function hvSendHook(message) {
+        console.log(message);
+      }
+
+       function start() {
+        loader.start();
+      }
+
+      function stop() {
+        loader.stop();
+      }
+
+      function toggleTransport(element) {
+        (loader.isPlaying) ? stop() : start();
+      }
+
+      function onPrint(message) {
+        console.log(message);
+      }
+
+      function onFloatMessage(sendName, floatValue) {
+        console.log(sendName, floatValue);
+      }
+
+      // Generated Parameter Update Methods
+      function updateSlider_MIDIOctave(value) {
+        document.getElementById("value_MIDIOctave").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("MIDIOctave", value);
+      }
+
+      function updateSlider_attack(value) {
+        document.getElementById("value_attack").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("attack", value);
+      }
+
+      function updateSlider_cm_ratio(value) {
+        document.getElementById("value_cm_ratio").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("cm_ratio", value);
+      }
+
+      function updateSlider_decay(value) {
+        document.getElementById("value_decay").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("decay", value);
+      }
+
+      function updateSlider_depth(value) {
+        document.getElementById("value_depth").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("depth", value);
+      }
+
+      function updateSlider_envmod(value) {
+        document.getElementById("value_envmod").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("envmod", value);
+      }
+
+      function updateSlider_filterq(value) {
+        document.getElementById("value_filterq").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("filterq", value);
+      }
+
+      function updateSlider_glide(value) {
+        document.getElementById("value_glide").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("glide", value);
+      }
+
+      function updateSlider_lfo(value) {
+        document.getElementById("value_lfo").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("lfo", value);
+      }
+
+      function updateSlider_lfo_depth(value) {
+        document.getElementById("value_lfo_depth").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("lfo_depth", value);
+      }
+
+      function updateSlider_modattack(value) {
+        document.getElementById("value_modattack").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("modattack", value);
+      }
+
+      function updateSlider_moddecay(value) {
+        document.getElementById("value_moddecay").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("moddecay", value);
+      }
+
+      function updateSlider_modrelease(value) {
+        document.getElementById("value_modrelease").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("modrelease", value);
+      }
+
+      function updateSlider_modsustain(value) {
+        document.getElementById("value_modsustain").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("modsustain", value);
+      }
+
+      function updateSlider_pan(value) {
+        document.getElementById("value_pan").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("pan", value);
+      }
+
+      function updateSlider_pitch60(value) {
+        document.getElementById("value_pitch60").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("pitch60", value);
+      }
+
+      function updateSlider_pitch61(value) {
+        document.getElementById("value_pitch61").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("pitch61", value);
+      }
+
+      function updateSlider_pitch62(value) {
+        document.getElementById("value_pitch62").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("pitch62", value);
+      }
+
+      function updateSlider_pitch63(value) {
+        document.getElementById("value_pitch63").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("pitch63", value);
+      }
+
+      function updateSlider_pitch64(value) {
+        document.getElementById("value_pitch64").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("pitch64", value);
+      }
+
+      function updateSlider_pitch65(value) {
+        document.getElementById("value_pitch65").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("pitch65", value);
+      }
+
+      function updateSlider_pitch66(value) {
+        document.getElementById("value_pitch66").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("pitch66", value);
+      }
+
+      function updateSlider_pitch67(value) {
+        document.getElementById("value_pitch67").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("pitch67", value);
+      }
+
+      function updateSlider_pitch68(value) {
+        document.getElementById("value_pitch68").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("pitch68", value);
+      }
+
+      function updateSlider_pitch69(value) {
+        document.getElementById("value_pitch69").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("pitch69", value);
+      }
+
+      function updateSlider_pitch70(value) {
+        document.getElementById("value_pitch70").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("pitch70", value);
+      }
+
+      function updateSlider_pitch71(value) {
+        document.getElementById("value_pitch71").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("pitch71", value);
+      }
+
+      function updateSlider_release(value) {
+        document.getElementById("value_release").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("release", value);
+      }
+
+      function updateSlider_sustain(value) {
+        document.getElementById("value_sustain").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("sustain", value);
+      }
+
+      function updateSlider_velmod(value) {
+        document.getElementById("value_velmod").textContent = Number(value).toFixed(2);
+        loader.audiolib.setFloatParameter("velmod", value);
+      }
+
+  
+
+    </script>
+  </head>
+
+  <!-- Head End -->
+
+  <!-- Body -->
+
+  <body>
+
+        <!-- interface.js script -->
+
+    <!-- Note that you need to call this particular sketch from within the body for the interface.js library to work properly. sketches previously done using p5.js are being imported from within the html head instead -->
+    <script language="javascript" type="text/javascript" src="interface_sketch.js"></script>
+
+    <p>Use the computer keys to play notes.<br>Change the octave by using the up and down arrows.</p>
+    <img src="images/piano.png" width="40%" height="18%">
+  
+        <!-- Parameters Sliders -->
+
+        
+         <div class="widget">
+      <div class="row title">
+        <div class="col"><h2>test6</h2></div>
+        <div class="col transport">
+          <label>s
+            start / stop
+            <input type="checkbox" id="transportButton" onchange="toggleTransport();">
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">MIDIOctave</div>
+        <div class="col parameter-slider">
+          <input id="parameter_MIDIOctave" type="range" min="0.0" max="8.0" step="0.01" value="4.0" onchange="updateSlider_MIDIOctave(value);" oninput="updateSlider_MIDIOctave(value)">
+        </div>
+        <div class="col parameter-value" id="value_MIDIOctave">4.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">attack</div>
+        <div class="col parameter-slider">
+          <input id="parameter_attack" type="range" min="1.0" max="1000.0" step="0.01" value="10.0" onchange="updateSlider_attack(value);" oninput="updateSlider_attack(value)">
+        </div>
+        <div class="col parameter-value" id="value_attack">10.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">cm_ratio</div>
+        <div class="col parameter-slider">
+          <input id="parameter_cm_ratio" type="range" min="-2.0" max="2.0" step="0.01" value="1.0" onchange="updateSlider_cm_ratio(value);" oninput="updateSlider_cm_ratio(value)">
+        </div>
+        <div class="col parameter-value" id="value_cm_ratio">1.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">decay</div>
+        <div class="col parameter-slider">
+          <input id="parameter_decay" type="range" min="1.0" max="2000.0" step="0.01" value="500.0" onchange="updateSlider_decay(value);" oninput="updateSlider_decay(value)">
+        </div>
+        <div class="col parameter-value" id="value_decay">500.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">depth</div>
+        <div class="col parameter-slider">
+          <input id="parameter_depth" type="range" min="0.0" max="2000.0" step="0.01" value="40.0" onchange="updateSlider_depth(value);" oninput="updateSlider_depth(value)">
+        </div>
+        <div class="col parameter-value" id="value_depth">40.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">envmod</div>
+        <div class="col parameter-slider">
+          <input id="parameter_envmod" type="range" min="0.0" max="1.0" step="0.01" value="0.0" onchange="updateSlider_envmod(value);" oninput="updateSlider_envmod(value)">
+        </div>
+        <div class="col parameter-value" id="value_envmod">0.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">filterq</div>
+        <div class="col parameter-slider">
+          <input id="parameter_filterq" type="range" min="0.0" max="100.0" step="0.01" value="64.0" onchange="updateSlider_filterq(value);" oninput="updateSlider_filterq(value)">
+        </div>
+        <div class="col parameter-value" id="value_filterq">64.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">glide</div>
+        <div class="col parameter-slider">
+          <input id="parameter_glide" type="range" min="10.0" max="5000.0" step="0.01" value="10.0" onchange="updateSlider_glide(value);" oninput="updateSlider_glide(value)">
+        </div>
+        <div class="col parameter-value" id="value_glide">10.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">lfo</div>
+        <div class="col parameter-slider">
+          <input id="parameter_lfo" type="range" min="0.01" max="10.0" step="0.01" value="0.01" onchange="updateSlider_lfo(value);" oninput="updateSlider_lfo(value)">
+        </div>
+        <div class="col parameter-value" id="value_lfo">0.01</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">lfo_depth</div>
+        <div class="col parameter-slider">
+          <input id="parameter_lfo_depth" type="range" min="0.0" max="5.0" step="0.01" value="0.1" onchange="updateSlider_lfo_depth(value);" oninput="updateSlider_lfo_depth(value)">
+        </div>
+        <div class="col parameter-value" id="value_lfo_depth">0.1</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">modattack</div>
+        <div class="col parameter-slider">
+          <input id="parameter_modattack" type="range" min="1.0" max="1000.0" step="0.01" value="10.0" onchange="updateSlider_modattack(value);" oninput="updateSlider_modattack(value)">
+        </div>
+        <div class="col parameter-value" id="value_modattack">10.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">moddecay</div>
+        <div class="col parameter-slider">
+          <input id="parameter_moddecay" type="range" min="1.0" max="200.0" step="0.01" value="10.0" onchange="updateSlider_moddecay(value);" oninput="updateSlider_moddecay(value)">
+        </div>
+        <div class="col parameter-value" id="value_moddecay">10.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">modrelease</div>
+        <div class="col parameter-slider">
+          <input id="parameter_modrelease" type="range" min="1.0" max="5000.0" step="0.01" value="1000.0" onchange="updateSlider_modrelease(value);" oninput="updateSlider_modrelease(value)">
+        </div>
+        <div class="col parameter-value" id="value_modrelease">1000.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">modsustain</div>
+        <div class="col parameter-slider">
+          <input id="parameter_modsustain" type="range" min="0.0" max="100.0" step="0.01" value="95.0" onchange="updateSlider_modsustain(value);" oninput="updateSlider_modsustain(value)">
+        </div>
+        <div class="col parameter-value" id="value_modsustain">95.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">pan</div>
+        <div class="col parameter-slider">
+          <input id="parameter_pan" type="range" min="-50.0" max="50.0" step="0.01" value="0.0" onchange="updateSlider_pan(value);" oninput="updateSlider_pan(value)">
+        </div>
+        <div class="col parameter-value" id="value_pan">0.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">pitch60</div>
+        <div class="col parameter-slider">
+          <input id="parameter_pitch60" type="range" min="0.0" max="1.0" step="0.01" value="0.0" onchange="updateSlider_pitch60(value);" oninput="updateSlider_pitch60(value)">
+        </div>
+        <div class="col parameter-value" id="value_pitch60">0.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">pitch61</div>
+        <div class="col parameter-slider">
+          <input id="parameter_pitch61" type="range" min="0.0" max="1.0" step="0.01" value="0.0" onchange="updateSlider_pitch61(value);" oninput="updateSlider_pitch61(value)">
+        </div>
+        <div class="col parameter-value" id="value_pitch61">0.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">pitch62</div>
+        <div class="col parameter-slider">
+          <input id="parameter_pitch62" type="range" min="0.0" max="1.0" step="0.01" value="0.0" onchange="updateSlider_pitch62(value);" oninput="updateSlider_pitch62(value)">
+        </div>
+        <div class="col parameter-value" id="value_pitch62">0.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">pitch63</div>
+        <div class="col parameter-slider">
+          <input id="parameter_pitch63" type="range" min="0.0" max="1.0" step="0.01" value="0.0" onchange="updateSlider_pitch63(value);" oninput="updateSlider_pitch63(value)">
+        </div>
+        <div class="col parameter-value" id="value_pitch63">0.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">pitch64</div>
+        <div class="col parameter-slider">
+          <input id="parameter_pitch64" type="range" min="0.0" max="1.0" step="0.01" value="0.0" onchange="updateSlider_pitch64(value);" oninput="updateSlider_pitch64(value)">
+        </div>
+        <div class="col parameter-value" id="value_pitch64">0.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">pitch65</div>
+        <div class="col parameter-slider">
+          <input id="parameter_pitch65" type="range" min="0.0" max="1.0" step="0.01" value="0.0" onchange="updateSlider_pitch65(value);" oninput="updateSlider_pitch65(value)">
+        </div>
+        <div class="col parameter-value" id="value_pitch65">0.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">pitch66</div>
+        <div class="col parameter-slider">
+          <input id="parameter_pitch66" type="range" min="0.0" max="1.0" step="0.01" value="0.0" onchange="updateSlider_pitch66(value);" oninput="updateSlider_pitch66(value)">
+        </div>
+        <div class="col parameter-value" id="value_pitch66">0.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">pitch67</div>
+        <div class="col parameter-slider">
+          <input id="parameter_pitch67" type="range" min="0.0" max="1.0" step="0.01" value="0.0" onchange="updateSlider_pitch67(value);" oninput="updateSlider_pitch67(value)">
+        </div>
+        <div class="col parameter-value" id="value_pitch67">0.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">pitch68</div>
+        <div class="col parameter-slider">
+          <input id="parameter_pitch68" type="range" min="0.0" max="1.0" step="0.01" value="0.0" onchange="updateSlider_pitch68(value);" oninput="updateSlider_pitch68(value)">
+        </div>
+        <div class="col parameter-value" id="value_pitch68">0.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">pitch69</div>
+        <div class="col parameter-slider">
+          <input id="parameter_pitch69" type="range" min="0.0" max="1.0" step="0.01" value="0.0" onchange="updateSlider_pitch69(value);" oninput="updateSlider_pitch69(value)">
+        </div>
+        <div class="col parameter-value" id="value_pitch69">0.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">pitch70</div>
+        <div class="col parameter-slider">
+          <input id="parameter_pitch70" type="range" min="0.0" max="1.0" step="0.01" value="0.0" onchange="updateSlider_pitch70(value);" oninput="updateSlider_pitch70(value)">
+        </div>
+        <div class="col parameter-value" id="value_pitch70">0.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">pitch71</div>
+        <div class="col parameter-slider">
+          <input id="parameter_pitch71" type="range" min="0.0" max="1.0" step="0.01" value="0.0" onchange="updateSlider_pitch71(value);" oninput="updateSlider_pitch71(value)">
+        </div>
+        <div class="col parameter-value" id="value_pitch71">0.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">release</div>
+        <div class="col parameter-slider">
+          <input id="parameter_release" type="range" min="1.0" max="10000.0" step="0.01" value="600.0" onchange="updateSlider_release(value);" oninput="updateSlider_release(value)">
+        </div>
+        <div class="col parameter-value" id="value_release">600.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">sustain</div>
+        <div class="col parameter-slider">
+          <input id="parameter_sustain" type="range" min="0.0" max="100.0" step="0.01" value="90.0" onchange="updateSlider_sustain(value);" oninput="updateSlider_sustain(value)">
+        </div>
+        <div class="col parameter-value" id="value_sustain">90.0</div>
+      </div>
+      <div class="row">
+        <div class="col parameter-name">velmod</div>
+        <div class="col parameter-slider">
+          <input id="parameter_velmod" type="range" min="0.0" max="1.0" step="0.01" value="0.0" onchange="updateSlider_velmod(value);" oninput="updateSlider_velmod(value)">
+        </div>
+        <div class="col parameter-value" id="value_velmod">0.0</div>
+      </div>
+      <div class="row">
+        <span class="link"><em>powered by <a href="https://enzienaudio.com"><strong>heavy</strong></em></a></span>
+      </div>
+    </div>
+  </body>
+</html>
